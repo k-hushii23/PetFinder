@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Pet Adoption Browser</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Header -->
+  <header class="hero">
+    <h1>Pet Adoption Browser</h1>
+    <p>Find your perfect furry companion 🐾</p>
+  </header>
+
+  <!-- Search + Filter Section -->
+  <section class="controls">
+    <input type="text" id="searchInput" placeholder="Search pets by breed..." />
+
+    <select id="breedFilter">
+      <option value="all">All Breeds</option>
+      <!-- Options can be added dynamically later -->
+    </select>
+
+    <select id="sortOption">
+      <option value="default">Sort By</option>
+      <option value="az">Name (A-Z)</option>
+      <option value="za">Name (Z-A)</option>
+    </select>
+  </section>
+
+  <!-- Loading State -->
+  <section id="loading" class="loading hidden">
+    <p>Loading pets...</p>
+  </section>
+
+  <!-- Error / Empty State -->
+  <section id="message" class="message hidden">
+    <p>No pets found.</p>
+  </section>
+
+  <!-- Pet Cards Section -->
+  <main>
+    <section id="petsContainer" class="pets-grid">
+      <!-- Pet cards will be inserted here dynamically using JS -->
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <p>© 2026 Pet Adoption Browser | Built with JavaScript & API</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
