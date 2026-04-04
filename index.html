@@ -7,13 +7,12 @@
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-
   <!-- Header -->
   <header class="hero">
     <h1>Pet Adoption Browser</h1>
-    <p>Find your perfect furry companion 🐾</p>
+    <p>Find your perfect furry companion 🐾</p><button id="themeToggle" class="theme-btn">🌙 Dark Mode</button>
   </header>
-
+  
   <!-- Search + Filter Section -->
   <section class="controls">
     <input type="text" id="searchInput" placeholder="Search pets by breed..." />
@@ -51,6 +50,20 @@
   <footer class="footer">
     <p>© 2026 Pet Adoption Browser | Built with JavaScript & API</p>
   </footer>
+  <!-- Modal -->
+  <div id="petModal" class="modal hidden">
+    <div class="modal-content">
+      <span id="closeModal" class="close-btn">&times;</span>
+      <img id="modalImage" src="" alt="Pet Image">
+      <h2 id="modalName"></h2>
+      <p id="modalBreed"></p>
+      <p id="modalLocation"></p>
+      <p id="modalShelter"></p>
+      <p id="modalEmail"></p>
+      <p id="modalPhone"></p>
+      <p id="modalWebsite"></p>
+    </div>
+  </div>
 
   <script src="script.js"></script>
 </body>
