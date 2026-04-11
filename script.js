@@ -7,259 +7,152 @@ const breedFilter = document.getElementById("breedFilter");
 const sortOption = document.getElementById("sortOption");
 const themeToggle = document.getElementById("themeToggle");
 
-// Modal Elements
-const petModal = document.getElementById("petModal");
-const closeModal = document.getElementById("closeModal");
-const modalImage = document.getElementById("modalImage");
-const modalName = document.getElementById("modalName");
-const modalBreed = document.getElementById("modalBreed");
-const modalLocation = document.getElementById("modalLocation");
-const modalShelter = document.getElementById("modalShelter");
-const modalEmail = document.getElementById("modalEmail");
-const modalPhone = document.getElementById("modalPhone");
-const modalWebsite = document.getElementById("modalWebsite");
-
 let petsData = [];
+let petImages = [];
 
-// Fallback data with REAL IMAGES
-const fallbackData = [
-  {
-    id: 1,
-    name: "Buddy",
-    username: "Golden Retriever",
-    email: "buddy@shelter.com",
-    phone: "9876543210",
-    website: "www.buddyadopt.com",
-    address: { city: "Delhi" },
-    company: { name: "Happy Tails Shelter" },
-    image: "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 2,
-    name: "Luna",
-    username: "Husky",
-    email: "luna@shelter.com",
-    phone: "9123456780",
-    website: "www.lunaadopt.com",
-    address: { city: "Mumbai" },
-    company: { name: "Paws Rescue" },
-    image: "https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 3,
-    name: "Charlie",
-    username: "Beagle",
-    email: "charlie@shelter.com",
-    phone: "9988776655",
-    website: "www.charliepets.com",
-    address: { city: "Bangalore" },
-    company: { name: "Safe Haven Pets" },
-    image: "https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 4,
-    name: "Max",
-    username: "German Shepherd",
-    email: "max@shelter.com",
-    phone: "9012345678",
-    website: "www.maxcare.com",
-    address: { city: "Chandigarh" },
-    company: { name: "Pet Care Society" },
-    image: "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 5,
-    name: "Bella",
-    username: "Labrador",
-    email: "bella@shelter.com",
-    phone: "9090909090",
-    website: "www.bellaadopt.com",
-    address: { city: "Jaipur" },
-    company: { name: "Love Paws Home" },
-    image: "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=800&q=80"
-  },
-  {
-    id: 6,
-    name: "Milo",
-    username: "Persian Cat",
-    email: "milo@shelter.com",
-    phone: "9876501234",
-    website: "www.milocats.com",
-    address: { city: "Pune" },
-    company: { name: "Furry Friends Care" },
-    image: "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=800&q=80"
+// 🐶 Fetch multiple dog images
+async function getDogImages(count) {
+  try {
+    const res = await fetch(`https://dog.ceo/api/breeds/image/random/${count}`);
+    const data = await res.json();
+    return data.message;
+  } catch {
+    return [];
   }
+}
+
+// 🐾 Fallback data (NOW MANY PETS)
+const fallbackData = [
+  { id:1, name:"Buddy", username:"Golden Retriever", address:{city:"Delhi"}, company:{name:"Happy Tails"} },
+  { id:2, name:"Luna", username:"Husky", address:{city:"Mumbai"}, company:{name:"Paws Rescue"} },
+  { id:3, name:"Charlie", username:"Beagle", address:{city:"Bangalore"}, company:{name:"Safe Haven"} },
+  { id:4, name:"Max", username:"German Shepherd", address:{city:"Chandigarh"}, company:{name:"Pet Care"} },
+  { id:5, name:"Rocky", username:"Labrador", address:{city:"Pune"}, company:{name:"Happy Homes"} },
+  { id:6, name:"Bella", username:"Pug", address:{city:"Jaipur"}, company:{name:"Pet Rescue"} },
+  { id:7, name:"Milo", username:"Shih Tzu", address:{city:"Delhi"}, company:{name:"Urban Pets"} },
+  { id:8, name:"Daisy", username:"Spaniel", address:{city:"Lucknow"}, company:{name:"Pet World"} },
+  { id:9, name:"Simba", username:"Indie", address:{city:"Hyderabad"}, company:{name:"Stray Care"} },
+  { id:10, name:"Coco", username:"Poodle", address:{city:"Kolkata"}, company:{name:"Happy Paws"} }
 ];
 
+// 🚀 Fetch pets
 async function fetchPets() {
   try {
     loading.classList.remove("hidden");
-    message.classList.add("hidden");
 
-    const response = await fetch("https://jsonplaceholder.typicode.com/users");
+    const res = await fetch("https://jsonplaceholder.typicode.com/users");
 
-    if (!response.ok) {
-      throw new Error("API failed");
-    }
+    if (!res.ok) throw new Error();
 
-    const data = await response.json();
+    const data = await res.json();
+    petsData = data;
 
-    // Add random pet images to API data
-    const petImages = [
-      "https://images.unsplash.com/photo-1552053831-71594a27632d?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1517849845537-4d257902454a?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1507146426996-ef05306b995a?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1518717758536-85ae29035b6d?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1587300003388-59208cc962cb?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1518791841217-8f162f1e1131?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1548199973-03cce0bbc87b?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1574158622682-e40e69881006?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1537151625747-768eb6cf92b2?auto=format&fit=crop&w=800&q=80",
-      "https://images.unsplash.com/photo-1596492784531-6e6eb5ea9993?auto=format&fit=crop&w=800&q=80"
-    ];
-
-    petsData = data.map((pet, index) => ({
-      ...pet,
-      image: petImages[index % petImages.length]
-    }));
-
-  } catch (error) {
-    console.error("API failed, using fallback data");
+  } catch {
     petsData = fallbackData;
   }
 
-  populateFilterOptions(petsData);
+  // 🔥 fetch images equal to pets
+  petImages = await getDogImages(petsData.length);
+
+  populateFilter();
   renderPets(petsData);
+
   loading.classList.add("hidden");
 }
 
+// 🎨 Render cards
 function renderPets(data) {
   petsContainer.innerHTML = "";
 
   if (data.length === 0) {
     message.classList.remove("hidden");
-    message.innerHTML = `<p>No pets found.</p>`;
+    message.textContent = "No pets found";
     return;
-  } else {
-    message.classList.add("hidden");
   }
 
-  data.forEach((pet) => {
+  message.classList.add("hidden");
+
+  data.forEach((pet, index) => {
+    const img = petImages[index] || "https://placehold.co/300x300";
+
     const card = document.createElement("div");
-    card.classList.add("pet-card");
+    card.className = "pet-card";
 
     card.innerHTML = `
-      <img src="${pet.image}" alt="${pet.name}" class="pet-image">
+      <button class="fav-btn">🤍</button>
+      <img src="${img}" alt="${pet.name}">
       <div class="pet-info">
         <h3>${pet.name}</h3>
-        <p><strong>Breed:</strong> ${pet.username}</p>
-        <p><strong>Location:</strong> ${pet.address.city}</p>
-        <p><strong>Shelter:</strong> ${pet.company.name}</p>
-        <button class="view-more-btn" data-id="${pet.id}">View More</button>
+        <p>Breed: ${pet.username}</p>
+        <p>City: ${pet.address.city}</p>
+        <p>Shelter: ${pet.company.name}</p>
       </div>
     `;
 
     petsContainer.appendChild(card);
   });
 
-  attachViewMoreEvents();
-}
-
-function populateFilterOptions(data) {
-  breedFilter.innerHTML = `<option value="all">All Breeds</option>`;
-
-  const breeds = [...new Set(data.map((pet) => pet.username))];
-
-  breeds.forEach((breed) => {
-    const option = document.createElement("option");
-    option.value = breed;
-    option.textContent = breed;
-    breedFilter.appendChild(option);
-  });
-}
-
-function applyFiltersAndRender() {
-  let filteredData = [...petsData];
-
-  const searchValue = searchInput.value.toLowerCase();
-  const selectedBreed = breedFilter.value;
-  const selectedSort = sortOption.value;
-
-  // Search
-  filteredData = filteredData.filter((pet) =>
-    pet.name.toLowerCase().includes(searchValue) ||
-    pet.username.toLowerCase().includes(searchValue)
-  );
-
-  // Filter
-  if (selectedBreed !== "all") {
-    filteredData = filteredData.filter(
-      (pet) => pet.username === selectedBreed
-    );
-  }
-
-  // Sort
-  if (selectedSort === "az") {
-    filteredData.sort((a, b) => a.name.localeCompare(b.name));
-  } else if (selectedSort === "za") {
-    filteredData.sort((a, b) => b.name.localeCompare(a.name));
-  }
-
-  renderPets(filteredData);
-}
-
-function attachViewMoreEvents() {
-  const buttons = document.querySelectorAll(".view-more-btn");
-
-  buttons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const petId = Number(button.dataset.id);
-      const selectedPet = petsData.find((pet) => pet.id === petId);
-
-      openModal(selectedPet);
+  // ❤️ Favorite toggle
+  document.querySelectorAll(".fav-btn").forEach(btn => {
+    btn.addEventListener("click", () => {
+      btn.textContent = btn.textContent === "🤍" ? "❤️" : "🤍";
     });
   });
 }
 
-function openModal(pet) {
-  modalImage.src = pet.image;
-  modalImage.alt = pet.name;
-  modalName.textContent = pet.name;
-  modalBreed.textContent = `Breed: ${pet.username}`;
-  modalLocation.textContent = `Location: ${pet.address.city}`;
-  modalShelter.textContent = `Shelter: ${pet.company.name}`;
-  modalEmail.textContent = `Email: ${pet.email}`;
-  modalPhone.textContent = `Phone: ${pet.phone}`;
-  modalWebsite.innerHTML = `Website: <a href="https://${pet.website}" target="_blank">${pet.website}</a>`;;
+// 🔍 Populate filter
+function populateFilter() {
+  breedFilter.innerHTML = `<option value="all">All Shelters</option>`;
 
-  petModal.classList.remove("hidden");
+  const companies = [...new Set(petsData.map(p => p.company.name))];
+
+  companies.forEach(c => {
+    const option = document.createElement("option");
+    option.value = c;
+    option.textContent = c;
+    breedFilter.appendChild(option);
+  });
 }
 
-closeModal.addEventListener("click", () => {
-  petModal.classList.add("hidden");
-});
+// 🔎 Apply filters
+function applyFilters() {
+  let filtered = [...petsData];
 
-window.addEventListener("click", (e) => {
-  if (e.target === petModal) {
-    petModal.classList.add("hidden");
+  const search = searchInput.value.toLowerCase();
+  const filter = breedFilter.value;
+  const sort = sortOption.value;
+
+  // Search
+  filtered = filtered.filter(p =>
+    p.name.toLowerCase().includes(search) ||
+    p.username.toLowerCase().includes(search)
+  );
+
+  // Filter
+  if (filter !== "all") {
+    filtered = filtered.filter(p => p.company.name === filter);
   }
-});
 
-// Dark Mode Toggle
+  // Sort
+  if (sort === "az") {
+    filtered.sort((a, b) => a.name.localeCompare(b.name));
+  } else if (sort === "za") {
+    filtered.sort((a, b) => b.name.localeCompare(a.name));
+  }
+
+  renderPets(filtered);
+}
+
+// 🌙 Dark mode
 themeToggle.addEventListener("click", () => {
   document.body.classList.toggle("dark-mode");
-
-  if (document.body.classList.contains("dark-mode")) {
-    themeToggle.textContent = "☀️ Light Mode";
-  } else {
-    themeToggle.textContent = "🌙 Dark Mode";
-  }
+  themeToggle.textContent = document.body.classList.contains("dark-mode") ? "☀️" : "🌙";
 });
 
-// Event Listeners
-searchInput.addEventListener("input", applyFiltersAndRender);
-breedFilter.addEventListener("change", applyFiltersAndRender);
-sortOption.addEventListener("change", applyFiltersAndRender);
+// 🎯 Events
+searchInput.addEventListener("input", applyFilters);
+breedFilter.addEventListener("change", applyFilters);
+sortOption.addEventListener("change", applyFilters);
 
-// Initial fetch
+// 🚀 Start
 fetchPets();

@@ -1,70 +1,73 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Pet Adoption Browser</title>
-  <link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PetFinder 🐾</title>
+
+  <!-- Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="style.css">
 </head>
+
 <body>
-  <!-- Header -->
+
+  <!-- 🌙 Theme Toggle -->
+  <button id="themeToggle" class="theme-btn">🌙</button>
+
+  <!-- 🐾 Hero Section -->
   <header class="hero">
-    <h1>Pet Adoption Browser</h1>
-    <p>Find your perfect furry companion 🐾</p><button id="themeToggle" class="theme-btn">🌙 Dark Mode</button>
+    <h1>🐾 PetFinder</h1>
+    <p>Find your perfect furry companion ❤️</p>
   </header>
-  
-  <!-- Search + Filter Section -->
+
+  <!-- 🔍 Controls -->
   <section class="controls">
-    <input type="text" id="searchInput" placeholder="Search pets by breed..." />
 
+    <!-- Search -->
+    <input 
+      type="text" 
+      id="searchInput" 
+      placeholder="Search by name or breed..."
+    >
+
+    <!-- Filter -->
     <select id="breedFilter">
-      <option value="all">All Breeds</option>
-      <!-- Options can be added dynamically later -->
+      <option value="all">All Shelters</option>
     </select>
 
+    <!-- Sort -->
     <select id="sortOption">
-      <option value="default">Sort By</option>
-      <option value="az">Name (A-Z)</option>
-      <option value="za">Name (Z-A)</option>
+      <option value="">Sort By</option>
+      <option value="az">Name A–Z</option>
+      <option value="za">Name Z–A</option>
     </select>
+
   </section>
 
-  <!-- Loading State -->
-  <section id="loading" class="loading hidden">
+  <!-- ⏳ Loading -->
+  <div id="loading" class="loading hidden">
     <p>Loading pets...</p>
-  </section>
-
-  <!-- Error / Empty State -->
-  <section id="message" class="message hidden">
-    <p>No pets found.</p>
-  </section>
-
-  <!-- Pet Cards Section -->
-  <main>
-    <section id="petsContainer" class="pets-grid">
-      <!-- Pet cards will be inserted here dynamically using JS -->
-    </section>
-  </main>
-
-  <!-- Footer -->
-  <footer class="footer">
-    <p>© 2026 Pet Adoption Browser | Built with JavaScript & API</p>
-  </footer>
-  <!-- Modal -->
-  <div id="petModal" class="modal hidden">
-    <div class="modal-content">
-      <span id="closeModal" class="close-btn">&times;</span>
-      <img id="modalImage" src="" alt="Pet Image">
-      <h2 id="modalName"></h2>
-      <p id="modalBreed"></p>
-      <p id="modalLocation"></p>
-      <p id="modalShelter"></p>
-      <p id="modalEmail"></p>
-      <p id="modalPhone"></p>
-      <p id="modalWebsite"></p>
-    </div>
   </div>
 
+  <!-- ❗ Message -->
+  <div id="message" class="message hidden"></div>
+
+  <!-- 🐶 Pets Grid -->
+  <section id="petsContainer" class="pets-grid">
+    <!-- JS will inject cards here -->
+  </section>
+
+  <!-- 🔻 Footer -->
+  <footer class="footer">
+    <p>Made with ❤️ | PetFinder</p>
+  </footer>
+
+  <!-- JS -->
   <script src="script.js"></script>
+
 </body>
 </html>
