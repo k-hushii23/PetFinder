@@ -90,6 +90,7 @@ h1, h2, h3, h4 {
   box-shadow: var(--shadow-md);
   position: relative;
   overflow: hidden;
+  width: 100%;
 }
 
 .hero::before {
@@ -137,6 +138,7 @@ h1, h2, h3, h4 {
   margin: -1.8rem auto 2rem;
   flex-wrap: wrap;
   max-width: 900px;
+  width: 100%;
   padding: 0 1rem;
   position: relative;
   z-index: 10;
@@ -182,10 +184,11 @@ h1, h2, h3, h4 {
 /* 🐶 Pets Grid */
 .pets-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
   padding: 2rem;
   gap: 2.5rem;
   max-width: 1200px;
+  width: 100%;
   margin: 0 auto;
   flex: 1;
 }
@@ -307,6 +310,7 @@ h1, h2, h3, h4 {
   margin-top: auto;
   border-top-left-radius: 30px;
   border-top-right-radius: 30px;
+  width: 100%;
 }
 
 /* 🌙 Dark Mode */
